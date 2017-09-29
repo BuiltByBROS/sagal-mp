@@ -10,7 +10,6 @@ IMPORTANT: On config file you must replace the client_id and client_secret for t
 - React Hot loader
 - React Router configuration
 - React, Redux configuration
-- Linting with Airbnb eslint configuration
 
 ## Getting Started
 
