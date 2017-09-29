@@ -1,6 +1,8 @@
 
 # Landing page form MP
 
+IMPORTANT: On config file you must replace the client_id and client_secret for the actual account that will be used for receive payments. Also replace localhost on success and failure URL's for the correct domain. Notification URL must be set also on mercadopago seller account.
+
 ## Features
 
 - Webpack development and production environment configuration
@@ -15,13 +17,13 @@
 Clone Repo
 
 ````
-git clone
+git clone https://github.com/BuiltByBROS/sagal-mp.git
 ````
 
 npm install dependencies
 
 ````
-cd landing-mp
+cd sagal-mp
 
 npm install
 ````
@@ -30,14 +32,6 @@ npm install
 
 ````
 npm run dev
-````
-
-### Linting
-
-For linting i'm using Eslint with Airbnb Eslint configuration
-
-````
-npm run lint
 ````
 
 ### Production
@@ -54,5 +48,5 @@ Start production server
 npm run start
 ````
 
-Note: I'm using pm2 for production server, you should install it on server via 'npm install pm2 -g'.
+I'm using pm2 for production server, you should install it on server via 'npm install pm2 -g'.
 if you don't want to use pm2, just change pm2 with node in package.json file in scripts section.

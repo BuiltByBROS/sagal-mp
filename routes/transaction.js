@@ -16,7 +16,7 @@ module.exports = (app) => {
     // We asign the purchase date
     data.date = new Date();
     // We asign the order id
-    data.orderId = config.item.orderId;
+    data.orderId = config.item.order_number;
 
     // We create the mercadopago payment preference object
 
