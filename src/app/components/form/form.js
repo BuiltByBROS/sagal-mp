@@ -6,6 +6,8 @@ import { buttonContainer, button } from "./form.scss";
 import { validate } from "../../utils/validate";
 import { renderField } from "../renderField/renderField";
 
+import CircularProgress from 'material-ui/CircularProgress';
+
 import "./form.scss";
 
 import {
@@ -14,7 +16,7 @@ import {
 } from 'material-ui';
 
 let PurchaseForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props
+  const { handleSubmit, pristine, reset, submitting, renderButtons } = props
   return (
     <form className='form' onSubmit={props.handleSubmit(props.submitForm)}>
       <Field
@@ -32,7 +34,7 @@ let PurchaseForm = props => {
       <Field
         name="phone"
         component={renderField}
-        type="number"
+        type="text"
         placeholder="Teléfono"
       />
       <Field
@@ -59,14 +61,20 @@ let PurchaseForm = props => {
         type="text"
         placeholder="Comentarios"
       />
-      <div className='button-container'>
-        <RaisedButton className='button' type="submit" disabled={pristine || submitting}>
-          Enviar
-        </RaisedButton>
-        <RaisedButton className='button' disabled={pristine || submitting} onClick={reset}>
-          Limpiar
-        </RaisedButton>
-      </div>
+      {
+        renderButtons ?
+          <div className='button-container'>
+            <RaisedButton className='button' type="submit" disabled={pristine || submitting}>
+              Enviar
+            </RaisedButton>
+            <RaisedButton className='button' disabled={pristine || submitting} onClick={reset}>
+              Limpiar
+            </RaisedButton>
+          </div>
+        :
+        <CircularProgress />
+      }
+
     </form>
   )
 }

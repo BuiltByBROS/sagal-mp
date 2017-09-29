@@ -2,7 +2,7 @@ const Excel = require('exceljs');
 
 module.exports = (app) => {
 
-  app.post('/api/createWorkbook', (req, res) => {
+  app.post('/api/workbook/create', (req, res) => {
 
     try {
 
@@ -26,19 +26,17 @@ module.exports = (app) => {
           }
         });
 
-
         worksheet.columns = [
-          { header: 'Id', key: 'id', width: 10 },
-          { header: 'Fecha', key: 'date' },
-
-          { header: 'Fecha', key: 'date' },
-          { header: 'Nombre', key: 'name' },
-          { header: 'Email', key: 'email' },
-          { header: 'Teléfono', key: 'phone' },
-          { header: 'Nombre Destinatario', key: 'addresseeName' },
-          { header: 'Dirección envío', key: 'shippingAddress' },
-          { header: 'Teléfono envío', key: 'addresseePhone' },
-          { header: 'Comentarios', key: 'comments' }
+          { header: 'Fecha', key: 'date', width: 25 },
+          { header: 'Número de pedido', key: 'orderId', width: 10 },
+          { header: 'Nombre', key: 'name', width: 10 },
+          { header: 'Email', key: 'email', width: 20 },
+          { header: 'Teléfono', key: 'phone', width: 5 },
+          { header: 'Nombre Destinatario', key: 'addresseeName', width: 10 },
+          { header: 'Dirección envío', key: 'shippingAddress', width: 25 },
+          { header: 'Teléfono envío', key: 'addresseePhone', width: 5 },
+          { header: 'Comentarios', key: 'comments', width: 30},
+          { header: 'Pago', key: 'payment', width: 10}
         ];
 
         workbook.xlsx.writeFile(__dirname + "/../files/transactions.xlsx")
@@ -46,9 +44,8 @@ module.exports = (app) => {
           res.send("Archivo creado con éxito")
         });
       })
-
-    } catch (e) {
-      throw new Error("Ha ocurrido un error inesperado");
+    } catch (error) {
+      throw new Error(`Ha ocurrido un error inesperado: ${error.message}`);
     }
 
   });

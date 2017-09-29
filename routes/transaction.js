@@ -1,45 +1,72 @@
-const client_id = "8002982999216703";
-const client_secret = "qs8ZelPRDDgJXXWKJjFI8rcfv48jmfmc";
+const config = require("../config/config.json");
 
-const MP = require ("mercadopago");
-const mp = new MP (client_id, client_secret);
+const mp = require ("mercadopago");
+const mpClient = new mp (config.mercadopago.client_id, config.mercadopago.client_secret);
 
-const Excel = require('exceljs');
+const redisClient = require("../persistence/redis");
 
 module.exports = (app) => {
 
   app.post('/api/comprar', (req, res) => {
 
-    try {
-      let preference = {
-        "items": [
-          {
-            "title": "Promotion item",
-            "quantity": 1,
-            "currency_id": "UYU",
-            "unit_price": 50
-          }
-        ],
-        "back_urls" : {
-          "success": "localhost",
-          "pending": "localhost",
-          "failure": "localhost"
-        },
-        "notification_url": "localhost",
-        "auto_return": "all"
-      };
+    // TODO: validate params
 
-      // We create Mercadopago preference
-      mp.createPreference(preference)
-      .then((preferenceMP) => {
-        res.send(preferenceMP.response["sandbox_init_point"]);
-      })
+    let data = req.body;
 
+    // We asign the purchase date
+    data.date = new Date();
+    // We asign the order id
+    data.orderId = config.item.orderId;
 
-    } catch (e) {
-      throw new Error("Ha ocurrido un error inesperado");
-    }
+    // We create the mercadopago payment preference object
 
+    let preference = {
+      "items": [
+        {
+          "title": config.item.title,
+          "quantity": config.item.quantity,
+          "currency_id": config.item.currency_id,
+          "unit_price": config.item.unit_price
+        }
+      ],
+      "back_urls" : config.mercadopago.back_urls,
+      "notification_url": config.mercadopago.notification_url,
+      "auto_return": "all",
+      "external_reference": null
+    };
+
+    let transactionId;
+
+    /**
+      We increment id of transaction manually
+      By doing this, INCR automatically locks the "id" key,
+      increments it, unlocks it, and returns it to you.
+      Thus, there is no way for anyone to get a duplicate id.
+    */
+    redisClient.incrAsync('id')
+    .then((id) => {
+      // We save id to get it on the next promise step scope.
+      transactionId = id;
+      // We save transaction object in redis.
+      return redisClient.setAsync(`transaction:${transactionId}`, JSON.stringify(data))
+    })
+    .then((transaction) => {
+      /**
+        Before we create the preference, we assign it the id of the transaction that we just save on redis,
+        that way when a payment it's made for this transaction
+        we can assign it to the object stored on redis.
+      */
+      preference.external_reference = transactionId;
+      // We crete the preference on mercadopago
+      return mpClient.createPreference(preference)
+    })
+    .then((preferenceMP) => {
+      // We respond with the URL to make the payment
+      res.status(200).send(preferenceMP.response["init_point"]);
+    })
+    .catch((error) => {
+      throw new Error(`Ha ocurrido un error inesperado: ${error.message}`)
+    })
 
   });
 

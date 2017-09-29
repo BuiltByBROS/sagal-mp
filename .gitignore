@@ -1,4 +1,6 @@
 /node_modules
+/dist/
+/files/
 /.idea
 .DS_Store
 bundle.js

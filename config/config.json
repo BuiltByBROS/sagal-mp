@@ -1,0 +1,18 @@
+{
+  "item": {
+    "title": "Item title",
+    "quantity": 1,
+    "currency_id": "UYU",
+    "unit_price": 50,
+    "order_number": 123
+  },
+  "mercadopago": {
+    "client_id": "8002982999216703",
+    "client_secret": "qs8ZelPRDDgJXXWKJjFI8rcfv48jmfmc",
+    "back_urls" : {
+      "success": "http://localhost:8080/success",
+      "failure": "http://localhost:8080/error"
+    },
+    "notification_url": "http://localhost:8080/api/notification"
+  }
+}
