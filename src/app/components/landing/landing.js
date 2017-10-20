@@ -19,7 +19,7 @@ export default class Landing extends React.Component {
     axios({
       method:'post',
       data: values,
-      url: "/api/comprar"
+      url: `/api/comprar/${this.props.route.item}`
     })
     .then((res) => {
       window.location = res.data;
@@ -32,7 +32,13 @@ export default class Landing extends React.Component {
   render() {
     return (
       <div className='form-container'>
-        <PurchaseForm submitForm={this.submitForm} renderButtons={this.state.renderButtons} />
+        <PurchaseForm
+          submitForm={this.submitForm}
+          renderButtons={this.state.renderButtons}
+          item={this.props.route.item}
+          title={this.props.route.title}
+          intro={this.props.route.intro}
+        />
       </div>
     );
   }

@@ -1,10 +1,19 @@
 {
-  "item": {
-    "title": "Item title",
+  "cajax4": {
+    "title": "Caja x 4",
     "quantity": 1,
     "currency_id": "UYU",
-    "unit_price": 50,
-    "order_number": 123
+    "unit_price": 500,
+    "shippingCost": 120,
+    "order_number": 4
+  },
+  "cajax7": {
+    "title": "Caja x 7",
+    "quantity": 1,
+    "currency_id": "UYU",
+    "unit_price": 700,
+    "shippingCost": 120,
+    "order_number": 7
   },
   "mercadopago": {
     "client_id": "8002982999216703",

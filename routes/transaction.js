@@ -7,32 +7,36 @@ const redisClient = require("../persistence/redis");
 
 module.exports = (app) => {
 
-  app.post('/api/comprar', (req, res) => {
+  app.post('/api/comprar/:item', (req, res) => {
 
     // TODO: validate params
+    const item = req.params.item;
 
     let data = req.body;
 
     // We asign the purchase date
     data.date = new Date();
     // We asign the order id
-    data.orderId = config.item.order_number;
+    data.orderId = config[`${item}`].order_number;
 
     // We create the mercadopago payment preference object
 
     let preference = {
       "items": [
         {
-          "title": config.item.title,
-          "quantity": config.item.quantity,
-          "currency_id": config.item.currency_id,
-          "unit_price": config.item.unit_price
+          "title": config[`${item}`].title,
+          "quantity": config[`${item}`].quantity,
+          "currency_id": config[`${item}`].currency_id,
+          "unit_price": config[`${item}`].unit_price
         }
       ],
       "back_urls" : config.mercadopago.back_urls,
       "notification_url": config.mercadopago.notification_url,
       "auto_return": "all",
-      "external_reference": null
+      "external_reference": null,
+      "shipments": {
+        "cost": config[`${item}`].shippingCost
+      }
     };
 
     let transactionId;

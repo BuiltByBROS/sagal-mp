@@ -17,14 +17,22 @@ module.exports = (app) => {
         worksheet.addRow([
           transaction.date,
           transaction.orderId,
-          transaction.name,
-          transaction.email,
-          transaction.phone,
+          transaction.snacks,
+          transaction.sabor1,
+          transaction.sabor2,
+          transaction.sabor3,
+          transaction.sabor4,
+          transaction.sabor5,
+          transaction.sabor6,
+          transaction.sabor7,
           transaction.addresseeName,
-          transaction.shippingAddress,
           transaction.addresseePhone,
+          transaction.addresseeEmail,
+          transaction.shippingAddress,
+          transaction.addresseeNeighborhood,
           transaction.comments,
-          transaction.payment
+          transaction.payment,
+          transaction.status
         ]).commit();
         return workbook.xlsx.writeFile(__dirname + "/../files/transactions.xlsx")
     })
@@ -37,6 +45,7 @@ module.exports = (app) => {
     if (topic === "payment") {
 
       let paymentId;
+      let status;
       let external_reference;
       let transaction;
 
@@ -45,6 +54,7 @@ module.exports = (app) => {
       .then((mpPayment) => {
         // We save paymentId and external_reference to get them on the next promise step scope.
         paymentId = mpPayment.response.collection.id;
+        status = mpPayment.response.collection.status;
         external_reference = mpPayment.response.collection.external_reference;
         /** We obtain or transaction object using the external reference
           that we pass on preference creation
@@ -55,6 +65,7 @@ module.exports = (app) => {
         // parsing redis object
         response = JSON.parse(response);
         response.payment = paymentId;
+        response.status = status;
         // we save the transaction again with the associated payment
         transaction = response;
         return redisClient.setAsync(`transaction:${external_reference}`, JSON.stringify(response))

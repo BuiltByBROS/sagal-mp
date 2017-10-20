@@ -28,15 +28,23 @@ module.exports = (app) => {
 
         worksheet.columns = [
           { header: 'Fecha', key: 'date', width: 25 },
-          { header: 'Número de pedido', key: 'orderId', width: 10 },
-          { header: 'Nombre', key: 'name', width: 10 },
-          { header: 'Email', key: 'email', width: 20 },
-          { header: 'Teléfono', key: 'phone', width: 5 },
-          { header: 'Nombre Destinatario', key: 'addresseeName', width: 10 },
-          { header: 'Dirección envío', key: 'shippingAddress', width: 25 },
-          { header: 'Teléfono envío', key: 'addresseePhone', width: 5 },
+          { header: 'Pedido', key: 'orderId', width: 10 },
+          { header: 'Bocaditos', key: 'snacks', width: 8 },
+          { header: 'Sabor 1', key: 'sabor1', width: 7 },
+          { header: 'Sabor 2', key: 'sabor2', width: 7 },
+          { header: 'Sabor 3', key: 'sabor3', width: 7 },
+          { header: 'Sabor 4', key: 'sabor4', width: 7 },
+          { header: 'Sabor 5', key: 'sabor5', width: 7 },
+          { header: 'Sabor 6', key: 'sabor6', width: 7 },
+          { header: 'Sabor 7', key: 'sabor7', width: 7 },
+          { header: 'Nombre de Destinatario', key: 'addresseeName', width: 20 },
+          { header: 'Teléfono de contacto', key: 'addresseePhone', width: 20 },
+          { header: 'Email de contacto', key: 'addresseeEmail', width: 20 },
+          { header: 'Dirección de envío', key: 'shippingAddress', width: 25 },
+          { header: 'Barrio', key: 'addresseeNeighborhood', width: 10 },
           { header: 'Comentarios', key: 'comments', width: 30},
-          { header: 'Pago', key: 'payment', width: 10}
+          { header: 'Pago', key: 'payment', width: 10},
+          { header: 'Estado', key: 'status', width: 10}
         ];
 
         workbook.xlsx.writeFile(__dirname + "/../files/transactions.xlsx")

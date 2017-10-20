@@ -18,7 +18,8 @@ ReactDOM.render(
   <Provider store={store}>
     <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
       <Route path="/" component={App}>
-        <IndexRoute component={Landing} />;
+        <Route path="/cajax4" component={Landing} item="cajax4" title={"Caja x 4"} intro={"Lorem ipsum dolor sit amet"}/>;
+        <Route path="/cajax7" component={Landing} item="cajax7" title={"Caja x 7"} intro={"Lorem ipsum dolor sit amet"}/>;
         <Route path="/success" component={Success} />
         <Route path="/error" component={Failure} />
       </Route>
